@@ -41,10 +41,11 @@ This phase implements the logic to transform raw transactional data into high-qu
 ## Phase 3: Baseline Modeling & Validation
 This phase establishes a performance baseline using a traditional non-linear model.
 
-- [ ] Task: Implement RandomForest baseline regressor
-    - [ ] Write tests for model training and prediction consistency
-    - [ ] Implement training script with validation metrics (MAE, R²)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Baseline Modeling & Validation' (Protocol in workflow.md)
+- [x] Task: Implement RandomForest baseline regressor
+    - [x] Write tests for model training and prediction consistency
+    - [x] Implement training script with validation metrics (MAE, R²)
+    *Summary:* Implemented RandomForestBaseline wrapper and metrics evaluation helper (`evaluate_predictions`). Implemented `train_baseline.py` to orchestrate end-to-end data loading, RFM calculation, scaling, splitting, and baseline model training. Added unit and integration tests.
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Baseline Modeling & Validation' (Protocol in workflow.md)
 
 ## Phase: Review Fixes
 - [x] Task: Apply review suggestions a87f839
