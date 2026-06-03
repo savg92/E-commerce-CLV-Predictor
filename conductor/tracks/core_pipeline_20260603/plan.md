@@ -3,15 +3,18 @@
 ## Phase 1: Environment & Monorepo Scaffold
 This phase establishes the foundational structure for the monorepo, ensuring all tools are correctly configured.
 
-- [ ] Task: Initialize `uv` workspace and root `pyproject.toml`
-    - [ ] Create `pyproject.toml` with `uv` workspace configuration
-    - [ ] Add base dependencies (Pandas, Scikit-Learn, PyTorch)
-- [ ] Task: Initialize `bun` workspace and root `package.json`
-    - [ ] Create `package.json` for the monorepo
-    - [ ] Configure `bun` workspaces for frontend and backend components
-- [ ] Task: Create root `Makefile` for orchestration
-    - [ ] Define `setup`, `test`, and `lint` targets
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment & Monorepo Scaffold' (Protocol in workflow.md)
+- [x] Task: Initialize `uv` workspace and root `pyproject.toml`
+    - [x] Create `pyproject.toml` with `uv` workspace configuration
+    - [x] Add base dependencies (Pandas, Scikit-Learn, PyTorch)
+    *Summary:* Created root `pyproject.toml` with `uv` workspace referencing `packages/*` and added dependencies including pandas, scikit-learn, and torch. Created `packages/backend/pyproject.toml` as workspace member.
+- [x] Task: Initialize `bun` workspace and root `package.json`
+    - [x] Create `package.json` for the monorepo
+    - [x] Configure `bun` workspaces for frontend and backend components
+    *Summary:* Created root `package.json` and `packages/frontend/package.json` configuring Bun workspaces.
+- [x] Task: Create root `Makefile` for orchestration
+    - [x] Define `setup`, `test`, and `lint` targets
+    *Summary:* Created root `Makefile` with targets for `setup`, `test`, and `lint` across frontend and backend.
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Environment & Monorepo Scaffold' (Protocol in workflow.md)
 
 ## Phase 2: Core Data Engineering Pipeline
 This phase implements the logic to transform raw transactional data into high-quality features for modeling, adhering to Clean Architecture principles.

@@ -1,0 +1,16 @@
+{
+  "name": "ecommerce-clv-predictor",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun --filter \"*\" dev",
+    "test": "bun --filter \"*\" test",
+    "lint": "bun --filter \"*\" lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
