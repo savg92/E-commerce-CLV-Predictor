@@ -23,10 +23,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 ## Registry
 
 - [x] **Track ID:** `core_pipeline_20260603` — **Track:** Scaffold Monorepo and Implement Core Data Pipeline
-  _Link: [./tracks/core_pipeline_20260603/](./tracks/core_pipeline_20260603/)_
+      _Link: [./tracks/core_pipeline_20260603/](./tracks/core_pipeline_20260603/)_
 
 - [~] **Track ID:** `pytorch_training_20260603` — **Track:** Implement PyTorch MLP & Training Pipeline
-      _Link: [./tracks/pytorch_training_20260603/](./tracks/pytorch_training_20260603/)_
+  _Link: [./tracks/pytorch_training_20260603/](./tracks/pytorch_training_20260603/)_
 
 - [ ] **Track ID:** `inference_dashboard_20260603` — **Track:** Build FastAPI Inference API & React Dashboard
       _Link: [./tracks/inference_dashboard_20260603/](./tracks/inference_dashboard_20260603/)_
