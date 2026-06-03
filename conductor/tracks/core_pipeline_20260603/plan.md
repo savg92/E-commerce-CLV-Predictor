@@ -47,7 +47,7 @@ This phase implements the logic to transform raw transactional data into high-qu
         _Summary:_ Implemented TemporalSplitter to split transaction logs into observation and future windows around a cutoff date, and chronologically split customers 80/20 train/validation.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
 
-## Phase 3: Baseline Modeling & Validation
+## Phase 3: Baseline Modeling & Validation [checkpoint: ff99032]
 
 This phase establishes a performance baseline using a traditional non-linear model.
 
@@ -55,7 +55,8 @@ This phase establishes a performance baseline using a traditional non-linear mod
   - [x] Write tests for model training and prediction consistency
   - [x] Implement training script with validation metrics (MAE, R²)
         _Summary:_ Implemented RandomForestBaseline wrapper and metrics evaluation helper (`evaluate_predictions`). Implemented `train_baseline.py` to orchestrate end-to-end data loading, RFM calculation, scaling, splitting, and baseline model training. Added unit and integration tests.
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Baseline Modeling & Validation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Baseline Modeling & Validation' (Protocol in workflow.md)
+  _Summary:_ Verified the baseline track by running the backend and frontend test suites from the monorepo root after fixing pytest source-path resolution. Confirmed the workspace now imports the backend package correctly and the baseline suite passes end-to-end.
 
 ## Phase: Review Fixes
 

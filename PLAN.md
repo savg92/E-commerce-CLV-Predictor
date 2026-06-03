@@ -8,13 +8,13 @@ To model the complex, non-linear relationship between a customer's historical tr
 
 ## Milestone 1: Core Foundation & Data Engineering
 
-- [~] **Conductor Track:** [Scaffold Monorepo and Implement Core Data Pipeline](./conductor/tracks/core_pipeline_20260603/)
+- [x] **Conductor Track:** [Scaffold Monorepo and Implement Core Data Pipeline](./conductor/tracks/core_pipeline_20260603/)
   - Scope: initialize `uv` and `bun` workspaces, implement the Clean Architecture data pipeline (Entities, Use Cases, Adapters), and establish the Random Forest baseline.
   - Exit criteria: reproducible workspace setup, validated RFM feature engineering, chronological data split, and a working baseline benchmark.
 
 ## Milestone 2: Deep Learning Implementation
 
-- [ ] **Conductor Track:** [Implement PyTorch MLP & Training Pipeline](./conductor/tracks/pytorch_training_20260603/)
+- [~] **Conductor Track:** [Implement PyTorch MLP & Training Pipeline](./conductor/tracks/pytorch_training_20260603/)
   - Scope: define the MLP topology, implement the training loop with Huber Loss, and automate hyperparameter tuning.
   - Exit criteria: trainable model script, persisted weights and scaler artifacts, and repeatable validation metrics.
 
