@@ -24,14 +24,16 @@
 
 ## Phase 2: React Dashboard UI
 
-- [~] Task: Create Dashboard Layout and Forms
-  - [ ] Implement manual entry fields for RFM features.
-  - [ ] Implement drag-and-drop CSV file loader for batch processing.
-  - [ ] Write unit tests for form components using Vitest.
-- [ ] Task: Implement OOD Alert Banner
-  - [ ] Write frontend component styling and assertion for the warning: `Warning: I am not sure about this [prediction]!`.
-  - [ ] Integrate endpoint fetch logic.
-- [ ] Task: E2E Integration Testing
+- [x] Task: Create Dashboard Layout and Forms
+  - [x] Implement manual entry fields for RFM features.
+  - [x] Implement drag-and-drop CSV file loader for batch processing.
+  - [x] Write unit tests for form components using Vitest.
+        _Summary:_ Added a React dashboard shell with a manual RFM form, CSV upload preview, and a prediction summary card. Covered the inputs and CSV flow with Vitest + Testing Library tests.
+- [x] Task: Implement OOD Alert Banner
+  - [x] Write frontend component styling and assertion for the warning: `Warning: I am not sure about this [prediction]!`.
+  - [x] Integrate endpoint fetch logic.
+        _Summary:_ Wired the dashboard to display the exact OOD warning banner when the backend response sets `ood: true`, and styled the banner with the product's amber alert treatment.
+- [~] Task: E2E Integration Testing
   - [ ] Configure Playwright to test end-to-end flow with actual backend connection.
   - [ ] Write and execute integration specs.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: React Dashboard UI' (Protocol in workflow.md)
