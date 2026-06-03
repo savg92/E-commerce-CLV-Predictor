@@ -35,10 +35,12 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Training & Validation Loop' (Protocol in workflow.md)
   _Summary:_ Verified the phase by running the training-specific test set and the full monorepo test target, both of which passed cleanly with the new data bundle and epoch loop in place.
 
-## Phase 3: Hyperparameter Tuning Grid
+## Phase 3: Hyperparameter Tuning Grid [checkpoint: ce37b0b]
 
-- [ ] Task: Build tuning orchestrator
-  - [ ] Test the tuning controller with a small sub-grid.
-  - [ ] Implement grid search logic over learning rate, dropout rate, and dense unit capacity.
-  - [ ] Save the best weights (`.pth`) and preprocessing scaler.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Hyperparameter Tuning Grid' (Protocol in workflow.md)
+- [x] Task: Build tuning orchestrator
+  - [x] Test the tuning controller with a small sub-grid.
+  - [x] Implement grid search logic over learning rate, dropout rate, and dense unit capacity.
+  - [x] Save the best weights (`.pth`) and preprocessing scaler.
+        _Summary:_ Added `backend.training.run_hyperparameter_search()` with deterministic candidate evaluation, epoch-by-epoch training/evaluation, and persistence of the best model checkpoint plus fitted scaler to disk.
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Hyperparameter Tuning Grid' (Protocol in workflow.md)
+  _Summary:_ Verified the tuning grid by running the targeted tuning test and the full backend/monorepo test suite. Confirmed the best-artifact outputs are written and the training package remains stable.
