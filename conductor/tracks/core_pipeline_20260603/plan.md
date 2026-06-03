@@ -19,19 +19,23 @@ This phase establishes the foundational structure for the monorepo, ensuring all
 ## Phase 2: Core Data Engineering Pipeline
 This phase implements the logic to transform raw transactional data into high-quality features for modeling, adhering to Clean Architecture principles.
 
-- [ ] Task: Define Domain Entities and Use Cases
-    - [ ] Define `Customer` and `Transaction` entities in the Domain layer
-    - [ ] Implement `CalculateRFM` use case with comprehensive business logic tests
-- [ ] Task: Implement Data Adapters (Infrastructure Layer)
-    - [ ] Create repository interfaces for data loading
-    - [ ] Implement CSV and DB data loaders as concrete infrastructure adapters
-- [ ] Task: Implement Log-Transformation and Scaling Services
-    - [ ] Implement scaling logic as pure Domain services with unit tests
-    - [ ] Implement reusable scaling pipeline for production inference
-- [ ] Task: Implement Temporal Data Partitioning
-    - [ ] Write tests for chronological split (Observation vs. Target windows)
-    - [ ] Implement split logic to prevent data leakage
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
+- [x] Task: Define Domain Entities and Use Cases
+    - [x] Define `Customer` and `Transaction` entities in the Domain layer
+    - [x] Implement `CalculateRFM` use case with comprehensive business logic tests
+    *Summary:* Implemented Transaction and Customer domain entities with properties like line_amount. Implemented CalculateRFM use case and tested with 93% coverage.
+- [x] Task: Implement Data Adapters (Infrastructure Layer)
+    - [x] Create repository interfaces for data loading
+    - [x] Implement CSV and DB data loaders as concrete infrastructure adapters
+    *Summary:* Created TransactionRepository abstraction in Domain. Implemented concrete CSVTransactionRepository to load and clean raw transactions using pandas, handling data-type standardizations, missing values, and filtering cancelations. Added DBTransactionRepository placeholder.
+- [x] Task: Implement Log-Transformation and Scaling Services
+    - [x] Implement scaling logic as pure Domain services with unit tests
+    - [x] Implement reusable scaling pipeline for production inference
+    *Summary:* Implemented FeaturePreprocessor domain service, which wraps Scikit-Learn pipelines to impute features and apply MinMaxScaler and OneHotEncoder. Includes log-transformations for skewed columns and supports single customer dict input transformation.
+- [x] Task: Implement Temporal Data Partitioning
+    - [x] Write tests for chronological split (Observation vs. Target windows)
+    - [x] Implement split logic to prevent data leakage
+    *Summary:* Implemented TemporalSplitter to split transaction logs into observation and future windows around a cutoff date, and chronologically split customers 80/20 train/validation.
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
 
 
 ## Phase 3: Baseline Modeling & Validation
