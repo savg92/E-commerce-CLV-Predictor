@@ -8,16 +8,19 @@
 - Validate loss curves, artifact paths, and hyperparameter logs before the track is considered stable.
 - Preserve the training input contract defined by the core pipeline track.
 
-## Phase 1: Model Topology & Loss Function
+## Phase 1: Model Topology & Loss Function [checkpoint: 36210cb]
 
-- [ ] Task: Build neural network sequential MLP model class
-  - [ ] Define PyTorch Sequential architecture with customizable layers, ReLU activations, and Dropout layers.
-  - [ ] Write unit tests to check model initialization and forward pass shapes.
-  - [ ] Implement MLP code in `training/model.py`.
-- [ ] Task: Integrate Huber Loss function
-  - [ ] Create test case validating that Huber Loss computes correctly.
-  - [ ] Set Huber Loss as the optimization criterion.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Model Topology & Loss Function' (Protocol in workflow.md)
+- [x] Task: Build neural network sequential MLP model class
+  - [x] Define PyTorch Sequential architecture with customizable layers, ReLU activations, and Dropout layers.
+  - [x] Write unit tests to check model initialization and forward pass shapes.
+  - [x] Implement MLP code in `training/model.py`.
+        _Summary:_ Added `backend.training.MLP` as a sequential PyTorch regressor with configurable hidden layers, ReLU activations, dropout, and output width. Added tests that validate the forward-pass shape and layer composition.
+- [x] Task: Integrate Huber Loss function
+  - [x] Create test case validating that Huber Loss computes correctly.
+  - [x] Set Huber Loss as the optimization criterion.
+        _Summary:_ Added `build_huber_loss()` to return a configured `torch.nn.HuberLoss` and covered it with a deterministic unit test verifying the expected loss value for a simple residual example.
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Model Topology & Loss Function' (Protocol in workflow.md)
+  _Summary:_ Verified the phase by running the training-focused backend test suite and full project tests with coverage. Confirmed the new PyTorch module imports cleanly and the monorepo test command remains green.
 
 ## Phase 2: Training & Validation Loop
 
