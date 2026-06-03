@@ -1,8 +1,15 @@
+"""Use cases for the E-commerce CLV Predictor domain."""
+
 import datetime
 from typing import List, Dict, Any, Optional
 from backend.domain.entities import Transaction
 
 class CalculateRFM:
+    """Orchestrates the calculation of RFM features for a single customer.
+    
+    This use case aggregates transaction logs into high-level features suitable
+    for CLV prediction.
+    """
     def execute(
         self,
         customer_id: str,
@@ -10,6 +17,17 @@ class CalculateRFM:
         future_transactions: Optional[List[Transaction]] = None,
         cutoff_date: Optional[datetime.datetime] = None
     ) -> Dict[str, Any]:
+        """Calculates RFM and auxiliary metrics for a customer.
+
+        Args:
+            customer_id: Unique identifier for the customer.
+            obs_transactions: List of transactions in the observation window.
+            future_transactions: List of transactions in the target window.
+            cutoff_date: The date that separates observation from target.
+
+        Returns:
+            A dictionary containing aggregated features and target CLV.
+        """
         if not obs_transactions:
             return {
                 "CustomerID": customer_id,

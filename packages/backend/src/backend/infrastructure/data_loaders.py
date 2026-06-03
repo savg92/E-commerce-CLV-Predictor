@@ -1,14 +1,28 @@
+"""Infrastructure data loaders for the E-commerce CLV Predictor."""
+
 import datetime
-import pandas as pd
 from typing import List
+import pandas as pd
 from backend.domain.entities import Transaction
 from backend.domain.repositories import TransactionRepository
 
 class CSVTransactionRepository(TransactionRepository):
+    """Loads transactions from a CSV file.
+
+    Attributes:
+        filepath: Path to the CSV file.
+    """
+
     def __init__(self, filepath: str):
+        """Initializes the repository with a file path."""
         self.filepath = filepath
 
     def load_transactions(self) -> List[Transaction]:
+        """Loads and cleans transactions from the CSV file.
+
+        Returns:
+            A list of domain Transaction objects.
+        """
         # Read raw CSV
         df = pd.read_csv(self.filepath)
         
@@ -52,17 +66,23 @@ class CSVTransactionRepository(TransactionRepository):
         if "CustomerID" in df.columns:
             df["CustomerID"] = df["CustomerID"].astype(str)
             # Remove decimal part if loaded as float e.g. 12345.0 -> 12345
-            df["CustomerID"] = df["CustomerID"].apply(lambda x: x.split('.')[0] if '.' in x else x)
+            df["CustomerID"] = df["CustomerID"].apply(
+                lambda x: x.split('.')[0] if '.' in x else x
+            )
 
         # Convert to Domain Transactions
         transactions = []
         for _, row in df.iterrows():
+            inv_date = row["InvoiceDate"]
+            if isinstance(inv_date, pd.Timestamp):
+                inv_date = inv_date.to_pydatetime()
+
             t = Transaction(
                 invoice_no=row.get("InvoiceNo", ""),
                 stock_code=row.get("StockCode", ""),
                 description=row.get("Description", ""),
                 quantity=int(row.get("Quantity", 0)),
-                invoice_date=row["InvoiceDate"].to_pydatetime() if isinstance(row["InvoiceDate"], pd.Timestamp) else row["InvoiceDate"],
+                invoice_date=inv_date,
                 unit_price=float(row.get("UnitPrice", 0.0)),
                 customer_id=row.get("CustomerID", ""),
                 country=row.get("Country", "")
@@ -72,10 +92,23 @@ class CSVTransactionRepository(TransactionRepository):
         return transactions
 
 class DBTransactionRepository(TransactionRepository):
+    """Loads transactions from a database.
+    
+    Attributes:
+        db_url: Database connection URL.
+    """
+
     def __init__(self, db_url: str):
+        """Initializes the repository with a DB URL."""
         self.db_url = db_url
 
     def load_transactions(self) -> List[Transaction]:
-        # Return empty list or raise NotImplementedError
-        # In a real system this would connect to DB using SQLAlchemy or similar
-        raise NotImplementedError("Database transaction loader is not yet implemented.")
+        """Loads transactions from the database.
+
+        Raises:
+            NotImplementedError: Database loader is not yet implemented.
+        """
+        # TODO(savg): Implement database transaction loader using SQLAlchemy.
+        raise NotImplementedError(
+            "Database transaction loader is not yet implemented."
+        )

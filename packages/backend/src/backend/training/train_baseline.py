@@ -1,9 +1,11 @@
+"""Orchestration script for training the RandomForest baseline model."""
+
 import argparse
 import datetime
 import os
+from typing import Tuple
 import pandas as pd
 import numpy as np
-from typing import Tuple
 
 from backend.infrastructure.data_loaders import CSVTransactionRepository
 from backend.domain.use_cases import CalculateRFM
@@ -11,9 +13,17 @@ from backend.domain.services import FeaturePreprocessor, TemporalSplitter
 from backend.domain.baseline import RandomForestBaseline, evaluate_predictions
 
 def run_training(data_path: str) -> Tuple[dict, dict]:
+    """Orchestrates the end-to-end training pipeline for the baseline model.
+
+    Args:
+        data_path: Path to the raw transactional dataset (CSV or Excel).
+
+    Returns:
+        A tuple containing training metrics and validation metrics.
+    """
     print(f"Loading data from {data_path}...")
     if data_path.endswith(".xlsx") or data_path.endswith(".xls"):
-        # For excel files, we can save them temporarily as CSV or let pandas read them
+        # For excel files, we can save them temporarily as CSV
         df = pd.read_excel(data_path)
         # Save as temporary CSV so we can reuse CSVTransactionRepository
         csv_path = data_path + ".temp.csv"
@@ -55,20 +65,22 @@ def run_training(data_path: str) -> Tuple[dict, dict]:
     rfm_records = []
     for customer_id, tx_list in customer_txs.items():
         obs_tx, future_tx = splitter.split_transactions(tx_list, cutoff_date)
-        # We only compute features if the customer had transactions in the observation window
+        # Features computed only if customer had transactions in obs window
         if obs_tx:
             rfm = use_case.execute(customer_id, obs_tx, future_tx, cutoff_date)
             rfm_records.append(rfm)
 
     if not rfm_records:
-        raise ValueError("No customer features calculated. Check observation window/cutoff date.")
+        raise ValueError(
+            "No customer features calculated. Check window/cutoff date."
+        )
 
     customer_df = pd.DataFrame(rfm_records)
     print(f"Calculated RFM features for {len(customer_df)} customers.")
 
     # Chronological Split (80% Train / 20% Val)
     train_df, val_df = splitter.split_train_val(customer_df, train_ratio=0.8)
-    print(f"Splits: Train={len(train_df)} customers, Validation={len(val_df)} customers.")
+    print(f"Splits: Train={len(train_df)}, Validation={len(val_df)} customers.")
 
     # Define features and target
     feature_cols = [
@@ -88,7 +100,7 @@ def run_training(data_path: str) -> Tuple[dict, dict]:
     X_train = preprocessor.fit_transform(X_train_raw)
     X_val = preprocessor.transform(X_val_raw)
 
-    print(f"Features shape post-processing: Train={X_train.shape}, Val={X_val.shape}")
+    print(f"Features shape: Train={X_train.shape}, Val={X_val.shape}")
 
     # Train RandomForest Baseline
     print("Training RandomForest baseline model...")
@@ -112,8 +124,15 @@ def run_training(data_path: str) -> Tuple[dict, dict]:
     return train_metrics, val_metrics
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train RandomForest baseline model for E-commerce CLV Predictor.")
-    parser.add_argument("--data-path", type=str, required=True, help="Path to transactional dataset (CSV or Excel).")
+    parser = argparse.ArgumentParser(
+        description="Train RandomForest baseline model for CLV Predictor."
+    )
+    parser.add_argument(
+        "--data-path", 
+        type=str, 
+        required=True, 
+        help="Path to transactional dataset (CSV or Excel)."
+    )
     args = parser.parse_args()
     
     run_training(args.data_path)
