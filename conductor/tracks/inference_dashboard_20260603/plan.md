@@ -8,20 +8,23 @@
 - Require live-backend verification for any end-to-end dashboard change.
 - Never expose inference behavior that assumes a different preprocessing contract than training.
 
-## Phase 1: FastAPI Inference Backend
+## Phase 1: FastAPI Inference Backend [checkpoint: bddabbd]
 
-- [ ] Task: Create FastAPI app setup with lifespan context
-  - [ ] Write unit test verifying model loading on app startup.
-  - [ ] Setup FastAPI server configuration.
-- [ ] Task: Develop `/predict` endpoint and OOD detection logic
-  - [ ] Create unit tests validating `/predict` endpoint success and error conditions.
-  - [ ] Implement preprocessing scaler load and forward propagation.
-  - [ ] Implement anomaly checking calculation to output OOD warnings.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: FastAPI Inference Backend' (Protocol in workflow.md)
+- [x] Task: Create FastAPI app setup with lifespan context
+  - [x] Write unit test verifying model loading on app startup.
+  - [x] Setup FastAPI server configuration.
+        _Summary:_ Added a lifespan-managed `create_app()` factory that loads the model bundle once on startup and exposes a health endpoint for readiness checks.
+- [x] Task: Develop `/predict` endpoint and OOD detection logic
+  - [x] Create unit tests validating `/predict` endpoint success and error conditions.
+  - [x] Implement preprocessing scaler load and forward propagation.
+  - [x] Implement anomaly checking calculation to output OOD warnings.
+        _Summary:_ Added `/predict` with typed request/response models, single-pass preprocessing, model inference, and OOD detection that surfaces the exact warning text when inputs exceed the training scaling range.
+- [x] Task: Conductor - User Manual Verification 'Phase 1: FastAPI Inference Backend' (Protocol in workflow.md)
+  _Summary:_ Verified the backend with the targeted API tests and the full monorepo test target. Confirmed the inference app boots via lifespan startup, loads the bundle once, and returns prediction/OOD payloads as expected.
 
 ## Phase 2: React Dashboard UI
 
-- [ ] Task: Create Dashboard Layout and Forms
+- [~] Task: Create Dashboard Layout and Forms
   - [ ] Implement manual entry fields for RFM features.
   - [ ] Implement drag-and-drop CSV file loader for batch processing.
   - [ ] Write unit tests for form components using Vitest.
