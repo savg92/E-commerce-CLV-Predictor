@@ -22,16 +22,18 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Model Topology & Loss Function' (Protocol in workflow.md)
   _Summary:_ Verified the phase by running the training-focused backend test suite and full project tests with coverage. Confirmed the new PyTorch module imports cleanly and the monorepo test command remains green.
 
-## Phase 2: Training & Validation Loop
+## Phase 2: Training & Validation Loop [checkpoint: 8b50fd4]
 
 - [x] Task: Create data pipeline for model ingestion
   - [x] Write tests for loading train/val partitions and scaling logic.
   - [x] Implement data loaders and scaling preprocessing utility.
         _Summary:_ Added `backend.training.build_training_split()` and `TrainingSplit` to reuse the core pipeline’s transaction loading, RFM engineering, chronological split, and scaling contract for PyTorch training.
-- [~] Task: Build training loop logic
-  - [ ] Write unit tests asserting single epoch forward/backward step.
-  - [ ] Implement training and evaluation loops with log outputs.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Training & Validation Loop' (Protocol in workflow.md)
+- [x] Task: Build training loop logic
+  - [x] Write unit tests asserting single epoch forward/backward step.
+  - [x] Implement training and evaluation loops with log outputs.
+        _Summary:_ Added `train_one_epoch()` and `evaluate()` helpers that move batches to the correct device, compute batchwise Huber loss, update model weights, and report averaged epoch metrics.
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Training & Validation Loop' (Protocol in workflow.md)
+  _Summary:_ Verified the phase by running the training-specific test set and the full monorepo test target, both of which passed cleanly with the new data bundle and epoch loop in place.
 
 ## Phase 3: Hyperparameter Tuning Grid
 
