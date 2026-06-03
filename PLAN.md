@@ -28,3 +28,10 @@ To model the complex, non-linear relationship between a customer's historical tr
   - Containerize Backend and Frontend.
   - Configure CI/CD pipelines.
   - Deploy to cloud-native environments (Vercel/AWS).
+
+## Milestone 5: Documentation & Architecture
+- [ ] **Track: Project Documentation and Architectural Blueprint**
+  - Create comprehensive technical and functional documentation.
+  - Generate detailed architectural diagrams (Clean Architecture layers).
+  - Document API endpoints, data schemas, and ML model performance.
+  - Finalize README, user guides, and academic deliverables.

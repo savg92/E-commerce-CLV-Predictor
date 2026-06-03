@@ -6,3 +6,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Scaffold Monorepo and Implement Core Data Pipeline**
   *Link: [./tracks/core_pipeline_20260603/](./tracks/core_pipeline_20260603/)*
+
+- [ ] **Track: Project Documentation and Architectural Blueprint**
+  *Link: [./tracks/documentation_blueprint/](./tracks/documentation_blueprint/)*
