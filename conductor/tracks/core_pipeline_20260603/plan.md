@@ -14,18 +14,22 @@ This phase establishes the foundational structure for the monorepo, ensuring all
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment & Monorepo Scaffold' (Protocol in workflow.md)
 
 ## Phase 2: Core Data Engineering Pipeline
-This phase implements the logic to transform raw transactional data into high-quality features for modeling.
+This phase implements the logic to transform raw transactional data into high-quality features for modeling, adhering to Clean Architecture principles.
 
-- [ ] Task: Implement RFM feature extraction logic
-    - [ ] Write tests for Recency, Frequency, and Monetary calculation
-    - [ ] Implement extraction logic following Clean Architecture principles
-- [ ] Task: Implement Log-Transformation and Scaling utilities
-    - [ ] Write tests for `np.log1p` and Min-Max scaling consistency
-    - [ ] Implement reusable scaling pipeline
+- [ ] Task: Define Domain Entities and Use Cases
+    - [ ] Define `Customer` and `Transaction` entities in the Domain layer
+    - [ ] Implement `CalculateRFM` use case with comprehensive business logic tests
+- [ ] Task: Implement Data Adapters (Infrastructure Layer)
+    - [ ] Create repository interfaces for data loading
+    - [ ] Implement CSV and DB data loaders as concrete infrastructure adapters
+- [ ] Task: Implement Log-Transformation and Scaling Services
+    - [ ] Implement scaling logic as pure Domain services with unit tests
+    - [ ] Implement reusable scaling pipeline for production inference
 - [ ] Task: Implement Temporal Data Partitioning
     - [ ] Write tests for chronological split (Observation vs. Target windows)
     - [ ] Implement split logic to prevent data leakage
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
+
 
 ## Phase 3: Baseline Modeling & Validation
 This phase establishes a performance baseline using a traditional non-linear model.
@@ -34,3 +38,6 @@ This phase establishes a performance baseline using a traditional non-linear mod
     - [ ] Write tests for model training and prediction consistency
     - [ ] Implement training script with validation metrics (MAE, R²)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Baseline Modeling & Validation' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions a87f839
