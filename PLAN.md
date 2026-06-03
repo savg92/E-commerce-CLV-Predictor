@@ -14,13 +14,13 @@ To model the complex, non-linear relationship between a customer's historical tr
 
 ## Milestone 2: Deep Learning Implementation
 
-- [~] **Conductor Track:** [Implement PyTorch MLP & Training Pipeline](./conductor/tracks/pytorch_training_20260603/)
+- [x] **Conductor Track:** [Implement PyTorch MLP & Training Pipeline](./conductor/tracks/pytorch_training_20260603/)
   - Scope: define the MLP topology, implement the training loop with Huber Loss, and automate hyperparameter tuning.
   - Exit criteria: trainable model script, persisted weights and scaler artifacts, and repeatable validation metrics.
 
 ## Milestone 3: Inference Engine & Application Core
 
-- [ ] **Conductor Track:** [Build FastAPI Inference API & React Dashboard](./conductor/tracks/inference_dashboard_20260603/)
+- [~] **Conductor Track:** [Build FastAPI Inference API & React Dashboard](./conductor/tracks/inference_dashboard_20260603/)
   - Scope: load PyTorch weights in FastAPI, implement real-time inference with OOD safety alerts, and develop the React dashboard for visualization.
   - Exit criteria: `/predict` works against the live model, OOD warnings surface in the UI, and the end-to-end flow is verified.
 
