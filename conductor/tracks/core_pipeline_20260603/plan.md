@@ -16,7 +16,7 @@ This phase establishes the foundational structure for the monorepo, ensuring all
     *Summary:* Created root `Makefile` with targets for `setup`, `test`, and `lint` across frontend and backend.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment & Monorepo Scaffold' (Protocol in workflow.md)
 
-## Phase 2: Core Data Engineering Pipeline
+## Phase 2: Core Data Engineering Pipeline [checkpoint: a984d16]
 This phase implements the logic to transform raw transactional data into high-quality features for modeling, adhering to Clean Architecture principles.
 
 - [x] Task: Define Domain Entities and Use Cases
@@ -35,7 +35,7 @@ This phase implements the logic to transform raw transactional data into high-qu
     - [x] Write tests for chronological split (Observation vs. Target windows)
     - [x] Implement split logic to prevent data leakage
     *Summary:* Implemented TemporalSplitter to split transaction logs into observation and future windows around a cutoff date, and chronologically split customers 80/20 train/validation.
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Core Data Engineering Pipeline' (Protocol in workflow.md)
 
 
 ## Phase 3: Baseline Modeling & Validation
