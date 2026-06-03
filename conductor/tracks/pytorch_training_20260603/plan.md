@@ -24,10 +24,11 @@
 
 ## Phase 2: Training & Validation Loop
 
-- [ ] Task: Create data pipeline for model ingestion
-  - [ ] Write tests for loading train/val partitions and scaling logic.
-  - [ ] Implement data loaders and scaling preprocessing utility.
-- [ ] Task: Build training loop logic
+- [x] Task: Create data pipeline for model ingestion
+  - [x] Write tests for loading train/val partitions and scaling logic.
+  - [x] Implement data loaders and scaling preprocessing utility.
+        _Summary:_ Added `backend.training.build_training_split()` and `TrainingSplit` to reuse the core pipeline’s transaction loading, RFM engineering, chronological split, and scaling contract for PyTorch training.
+- [~] Task: Build training loop logic
   - [ ] Write unit tests asserting single epoch forward/backward step.
   - [ ] Implement training and evaluation loops with log outputs.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Training & Validation Loop' (Protocol in workflow.md)
