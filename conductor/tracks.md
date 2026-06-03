@@ -22,9 +22,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Registry
 
-- [x] **Track ID:** `core_pipeline_20260603` — **Track:** Scaffold Monorepo and Implement Core Data Pipeline
-      _Link: [./tracks/core_pipeline_20260603/](./tracks/core_pipeline_20260603/)_
-
 - [x] **Track ID:** `pytorch_training_20260603` — **Track:** Implement PyTorch MLP & Training Pipeline
   _Link: [./tracks/pytorch_training_20260603/](./tracks/pytorch_training_20260603/)_
 
@@ -36,3 +33,4 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track ID:** `documentation_blueprint_20260603` — **Track:** Project Documentation and Architectural Blueprint
       _Link: [./tracks/documentation_blueprint_20260603/](./tracks/documentation_blueprint_20260603/)_
+
