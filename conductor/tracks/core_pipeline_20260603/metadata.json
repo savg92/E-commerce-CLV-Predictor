@@ -1,0 +1,8 @@
+{
+  "track_id": "core_pipeline_20260603",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-03T10:00:00Z",
+  "updated_at": "2026-06-03T10:00:00Z",
+  "description": "Scaffold Monorepo and Implement Core Data Pipeline"
+}
