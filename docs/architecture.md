@@ -1,0 +1,28 @@
+# E-commerce CLV Predictor - Architecture (Detailed)
+
+```text
+-----------------------------------------------------------
+|                  API Layer (FastAPI)                    |
+|                /predict, /health                        |
+-----------------------------------------------------------
+                           |
+                           v
+-----------------------------------------------------------
+|              Infrastructure Layer                       |
+|   [CSVTransactionRepository] [DBTransactionRepository]  |
+-----------------------------------------------------------
+                           |
+                           v
+-----------------------------------------------------------
+|                  Domain Layer                           |
+|  [Entities: Transaction, Customer]                      |
+|  [UseCases: CalculateRFM]                               |
+|  [Services: FeaturePreprocessor, TemporalSplitter]      |
+-----------------------------------------------------------
+                           |
+                           v
+-----------------------------------------------------------
+|             Model Layer (PyTorch)                       |
+|  [MLP Model] [HuberLoss] [Hyperparameter Tuning]        |
+-----------------------------------------------------------
+```
