@@ -1,0 +1,19 @@
+# Ignore everything by default
+*
+# But re-include necessary directories/files
+!packages/backend/src/
+!packages/backend/pyproject.toml
+!pyproject.toml
+!uv.lock
+
+# Specific exclusions
+.git
+.venv
+__pycache__
+*.pyc
+tests
+docs
+artifacts
+packages/frontend
+.pytest_cache
+.coverage
