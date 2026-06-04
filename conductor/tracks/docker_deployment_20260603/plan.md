@@ -10,17 +10,17 @@
 
 ## Phase 1: Containerization
 
-- [ ] Task: Containerize FastAPI backend
-  - [ ] Create Dockerfile for backend using multi-stage builds.
-  - [ ] Add backend test cases for production configurations.
-- [ ] Task: Containerize React frontend
-  - [ ] Create Dockerfile for frontend compiling to static build.
-  - [ ] Set up Docker compose for local multi-container orchestration.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Containerization' (Protocol in workflow.md)
+- [x] Task: Containerize FastAPI backend
+  - [x] Create Dockerfile for backend using multi-stage builds.
+  - [x] Add backend test cases for production configurations.
+- [x] Task: Containerize React frontend
+  - [x] Create Dockerfile for frontend compiling to static build.
+  - [x] Set up Docker compose for local multi-container orchestration.
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Containerization' (Protocol in workflow.md)
 
 ## Phase 2: Orchestration & Deployment Configs
 
-- [ ] Task: Automate checks and builds
-  - [ ] Add Makefile commands for building images and testing.
-  - [ ] Create basic configuration templates for cloud deployments (AWS/Kubernetes).
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Orchestration & Deployment Configs' (Protocol in workflow.md)
+- [x] Task: Automate checks and builds
+  - [x] Add Makefile commands for building images and testing.
+  - [x] Create basic configuration templates for cloud deployments (AWS/Kubernetes).
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Orchestration & Deployment Configs' (Protocol in workflow.md)

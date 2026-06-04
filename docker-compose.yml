@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: packages/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/artifacts/training/best_model.pth
+      - SCALER_PATH=/app/artifacts/training/scaler.joblib
+    volumes:
+      - ./artifacts:/app/artifacts
+  frontend:
+    build:
+      context: packages/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
