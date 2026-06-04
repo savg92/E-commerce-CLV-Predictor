@@ -18,7 +18,7 @@
         _Summary:_ Created API documentation in `docs/api.md` and verified its existence with a unit test.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Architectural Blueprint & Diagrams' (Protocol in workflow.md)
 
-## Phase 2: User Manuals & Project Documentation
+## Phase 2: User Manuals & Project Documentation [checkpoint: 5e8d207]
 
 - [x] Task: Finalize project README and onboarding guide
   - [x] Write installation, training run, application execution, and test execution guides.
