@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -94,16 +95,19 @@ def load_inference_bundle(
 
 
 def create_app(
-    model_path: str | Path = DEFAULT_MODEL_PATH,
-    scaler_path: str | Path = DEFAULT_SCALER_PATH,
+    model_path: str | Path | None = None,
+    scaler_path: str | Path | None = None,
     ood_threshold: float = 0.0,
     bundle_loader: Callable[[str | Path, str | Path, float], InferenceService] = load_inference_bundle,
 ) -> FastAPI:
     """Create the FastAPI application with lifespan-managed model loading."""
 
+    final_model_path = model_path or os.environ.get("MODEL_PATH", DEFAULT_MODEL_PATH)
+    final_scaler_path = scaler_path or os.environ.get("SCALER_PATH", DEFAULT_SCALER_PATH)
+
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        app.state.inference_service = bundle_loader(model_path, scaler_path, ood_threshold)
+        app.state.inference_service = bundle_loader(final_model_path, final_scaler_path, ood_threshold)
         yield
 
     app = FastAPI(title="E-commerce CLV Predictor", lifespan=lifespan)

@@ -10,11 +10,13 @@
 
 ## Phase 1: Architectural Blueprint & Diagrams
 
-- [ ] Task: Create Clean Architecture diagrams
-  - [ ] Create system component layouts and layer interactions.
-- [ ] Task: Document API contracts and data schemas
-  - [ ] List all endpoints, payload examples, and validation rules.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Architectural Blueprint & Diagrams' (Protocol in workflow.md)
+- [x] Task: Create Clean Architecture diagrams
+  - [x] Create system component layouts and layer interactions.
+        _Summary:_ Created ASCII architecture diagram in `docs/architecture.txt` and verified its existence with a unit test.
+- [x] Task: Document API contracts and data schemas
+  - [x] List all endpoints, payload examples, and validation rules.
+        _Summary:_ Created API documentation in `docs/api.md` and verified its existence with a unit test.
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Architectural Blueprint & Diagrams' (Protocol in workflow.md)
 
 ## Phase 2: User Manuals & Project Documentation
 

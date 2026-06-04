@@ -13,7 +13,7 @@ services:
       - ./artifacts:/app/artifacts
   frontend:
     build:
-      context: packages/frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: packages/frontend/Dockerfile
     ports:
       - "80:80"

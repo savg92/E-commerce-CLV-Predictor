@@ -1,8 +1,12 @@
 FROM oven/bun:1 AS builder
 WORKDIR /app
-COPY package.json bun.lock ./
+COPY packages/frontend/package.json .
+COPY bun.lock .
 RUN bun install
-COPY . .
+COPY packages/frontend/src ./src
+COPY packages/frontend/index.html .
+COPY packages/frontend/tsconfig.json .
+COPY packages/frontend/vite.config.ts .
 RUN bun run build
 
 FROM nginx:alpine AS runner
