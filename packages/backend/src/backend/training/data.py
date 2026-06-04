@@ -10,10 +10,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from backend.domain.entities import Transaction
-from backend.domain.use_cases import CalculateRFM
-from backend.domain.services import FeaturePreprocessor, TemporalSplitter
-from backend.infrastructure.data_loaders import CSVTransactionRepository
+from backend.domain import entities, services, use_cases
+from backend.infrastructure import data_loaders
 
 
 FEATURE_COLUMNS = [
@@ -39,7 +37,7 @@ class TrainingSplit:
     X_val: np.ndarray
     y_train: np.ndarray
     y_val: np.ndarray
-    preprocessor: FeaturePreprocessor
+    preprocessor: services.FeaturePreprocessor
 
 
 def _load_transactions(data_path: str):
@@ -51,16 +49,16 @@ def _load_transactions(data_path: str):
             temp_path = temp_file.name
             df.to_csv(temp_path, index=False)
         try:
-            return CSVTransactionRepository(temp_path).load_transactions()
+            return data_loaders.CSVTransactionRepository(temp_path).load_transactions()
         finally:
             if os.path.exists(temp_path):
                 os.remove(temp_path)
 
-    return CSVTransactionRepository(data_path).load_transactions()
+    return data_loaders.CSVTransactionRepository(data_path).load_transactions()
 
 
 def _build_customer_frame(
-    transactions: list[Transaction], train_ratio: float
+    transactions: list[entities.Transaction], train_ratio: float
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Convert transactions into chronological train and validation frames."""
 
@@ -70,12 +68,12 @@ def _build_customer_frame(
     dates = [transaction.invoice_date for transaction in transactions]
     cutoff_date = min(dates) + datetime.timedelta(days=9 * 30)
 
-    customer_transactions: dict[str, list[Transaction]] = {}
+    customer_transactions: dict[str, list[entities.Transaction]] = {}
     for transaction in transactions:
         customer_transactions.setdefault(transaction.customer_id, []).append(transaction)
 
-    splitter = TemporalSplitter()
-    use_case = CalculateRFM()
+    splitter = services.TemporalSplitter()
+    use_case = use_cases.CalculateRFM()
 
     rfm_records = []
     for customer_id, tx_list in customer_transactions.items():
@@ -104,7 +102,7 @@ def build_training_split(data_path: str, train_ratio: float = 0.8) -> TrainingSp
     transactions = _load_transactions(data_path)
     train_frame, val_frame = _build_customer_frame(transactions, train_ratio=train_ratio)
 
-    preprocessor = FeaturePreprocessor()
+    preprocessor = services.FeaturePreprocessor()
     X_train_raw = train_frame[FEATURE_COLUMNS]
     X_val_raw = val_frame[FEATURE_COLUMNS]
     y_train = train_frame["Future_CLV"].to_numpy(dtype=float)

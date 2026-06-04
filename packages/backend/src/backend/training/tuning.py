@@ -12,9 +12,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
-from backend.training.data import TrainingSplit, build_training_split
-from backend.training.loop import evaluate, train_one_epoch
-from backend.training.model import MLP, build_huber_loss
+from backend.training import data, loop, model
 
 
 @dataclass(frozen=True, slots=True)
@@ -47,7 +45,7 @@ def _set_seed(seed: int) -> None:
 
 
 def _build_dataloaders(
-    split: TrainingSplit,
+    split: data.TrainingSplit,
     batch_size: int,
     seed: int,
 ) -> tuple[DataLoader, DataLoader]:
@@ -94,7 +92,7 @@ def run_hyperparameter_search(
 
     _set_seed(seed)
 
-    split = build_training_split(data_path)
+    split = data.build_training_split(data_path)
     train_loader, val_loader = _build_dataloaders(split, batch_size=batch_size, seed=seed)
 
     output_path = Path(output_dir)
@@ -103,7 +101,7 @@ def run_hyperparameter_search(
     scaler_path = output_path / "scaler.joblib"
 
     input_dim = split.X_train.shape[1]
-    loss_fn = build_huber_loss()
+    loss_fn = model.build_huber_loss()
     history: list[HyperparameterTrial] = []
     best_trial: HyperparameterTrial | None = None
     best_val_loss = float("inf")
@@ -112,19 +110,19 @@ def run_hyperparameter_search(
         for dropout in dropout_rates:
             for units in dense_units:
                 _set_seed(seed)
-                model = MLP(
+                mlp_model = model.MLP(
                     input_dim=input_dim,
                     hidden_dims=[units],
                     dropout=dropout,
                     output_dim=1,
                 )
-                optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+                optimizer = torch.optim.Adam(mlp_model.parameters(), lr=learning_rate)
 
                 train_loss = 0.0
                 val_loss = 0.0
                 for _ in range(epochs):
-                    train_loss = train_one_epoch(model, train_loader, optimizer, loss_fn)
-                    val_loss = evaluate(model, val_loader, loss_fn)
+                    train_loss = loop.train_one_epoch(mlp_model, train_loader, optimizer, loss_fn)
+                    val_loss = loop.evaluate(mlp_model, val_loader, loss_fn)
 
                 trial = HyperparameterTrial(
                     learning_rate=learning_rate,
@@ -140,7 +138,7 @@ def run_hyperparameter_search(
                     best_trial = trial
                     torch.save(
                         {
-                            "state_dict": model.state_dict(),
+                            "state_dict": mlp_model.state_dict(),
                             "input_dim": input_dim,
                             "hidden_dims": [units],
                             "dropout": dropout,

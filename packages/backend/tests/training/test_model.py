@@ -1,11 +1,11 @@
 import torch
 import pytest
 
-from backend.training.model import MLP, build_huber_loss
+from backend.training import model
 
 
 def test_mlp_forward_shape_and_layers():
-    model = MLP(
+    mlp_model = model.MLP(
         input_dim=8,
         hidden_dims=[16, 8],
         dropout=0.25,
@@ -13,13 +13,13 @@ def test_mlp_forward_shape_and_layers():
     )
 
     batch = torch.randn(4, 8)
-    output = model(batch)
+    output = mlp_model(batch)
 
     assert output.shape == (4, 1)
 
-    linear_layers = [module for module in model.network if isinstance(module, torch.nn.Linear)]
-    dropout_layers = [module for module in model.network if isinstance(module, torch.nn.Dropout)]
-    relu_layers = [module for module in model.network if isinstance(module, torch.nn.ReLU)]
+    linear_layers = [module for module in mlp_model.network if isinstance(module, torch.nn.Linear)]
+    dropout_layers = [module for module in mlp_model.network if isinstance(module, torch.nn.Dropout)]
+    relu_layers = [module for module in mlp_model.network if isinstance(module, torch.nn.ReLU)]
 
     assert len(linear_layers) == 3
     assert len(dropout_layers) == 2
@@ -27,7 +27,7 @@ def test_mlp_forward_shape_and_layers():
 
 
 def test_build_huber_loss_uses_requested_delta():
-    loss_fn = build_huber_loss(delta=1.0)
+    loss_fn = model.build_huber_loss(delta=1.0)
 
     preds = torch.tensor([0.0, 2.0])
     targets = torch.tensor([0.0, 0.0])

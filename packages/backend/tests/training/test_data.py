@@ -3,7 +3,7 @@ import tempfile
 
 import numpy as np
 
-from backend.training.data import build_training_split
+from backend.training import data
 
 
 def test_build_training_split_produces_chronological_train_val_and_scaled_features():
@@ -22,7 +22,7 @@ def test_build_training_split_produces_chronological_train_val_and_scaled_featur
         temp_path = f.name
 
     try:
-        bundle = build_training_split(temp_path)
+        bundle = data.build_training_split(temp_path)
 
         assert len(bundle.train_frame) == 8
         assert len(bundle.val_frame) == 2

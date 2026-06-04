@@ -2,7 +2,7 @@ import os
 import tempfile
 from pathlib import Path
 
-from backend.training.tuning import run_hyperparameter_search
+from backend.training import tuning
 
 
 def test_run_hyperparameter_search_saves_best_artifacts():
@@ -22,7 +22,7 @@ def test_run_hyperparameter_search_saves_best_artifacts():
 
     with tempfile.TemporaryDirectory() as temp_dir:
         try:
-            result = run_hyperparameter_search(
+            result = tuning.run_hyperparameter_search(
                 data_path=temp_path,
                 learning_rates=[0.01, 0.001],
                 dropout_rates=[0.0],
