@@ -20,7 +20,7 @@
   - [x] Set Huber Loss as the optimization criterion.
         _Summary:_ Added `build_huber_loss()` to return a configured `torch.nn.HuberLoss` and covered it with a deterministic unit test verifying the expected loss value for a simple residual example.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Model Topology & Loss Function' (Protocol in workflow.md)
-  _Summary:_ Verified the phase by running the training-focused backend test suite and full project tests with coverage. Confirmed the new PyTorch module imports cleanly and the monorepo test command remains green.
+      _Summary:_ Verified the phase by running the training-focused backend test suite and full project tests with coverage. Confirmed the new PyTorch module imports cleanly and the monorepo test command remains green.
 
 ## Phase 2: Training & Validation Loop [checkpoint: 8b50fd4]
 
@@ -33,7 +33,7 @@
   - [x] Implement training and evaluation loops with log outputs.
         _Summary:_ Added `train_one_epoch()` and `evaluate()` helpers that move batches to the correct device, compute batchwise Huber loss, update model weights, and report averaged epoch metrics.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Training & Validation Loop' (Protocol in workflow.md)
-  _Summary:_ Verified the phase by running the training-specific test set and the full monorepo test target, both of which passed cleanly with the new data bundle and epoch loop in place.
+      _Summary:_ Verified the phase by running the training-specific test set and the full monorepo test target, both of which passed cleanly with the new data bundle and epoch loop in place.
 
 ## Phase 3: Hyperparameter Tuning Grid [checkpoint: ce37b0b]
 
@@ -43,4 +43,7 @@
   - [x] Save the best weights (`.pth`) and preprocessing scaler.
         _Summary:_ Added `backend.training.run_hyperparameter_search()` with deterministic candidate evaluation, epoch-by-epoch training/evaluation, and persistence of the best model checkpoint plus fitted scaler to disk.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Hyperparameter Tuning Grid' (Protocol in workflow.md)
-  _Summary:_ Verified the tuning grid by running the targeted tuning test and the full backend/monorepo test suite. Confirmed the best-artifact outputs are written and the training package remains stable.
+      _Summary:_ Verified the tuning grid by running the targeted tuning test and the full backend/monorepo test suite. Confirmed the best-artifact outputs are written and the training package remains stable.
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions ee7d557
