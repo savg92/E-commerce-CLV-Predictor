@@ -21,7 +21,7 @@ The objective of this project is to model the complex, non-linear relationship b
 Unlike linear models that assume constant decay, this system utilizes Deep Learning to capture non-linear interactions between variables such as Recency, Frequency, and Monetary (RFM) value.
 
 *   **Primary Academic Goal:** Fulfill and exceed the requirements for Unit 5: Non-Linear Regressions.
-*   **Dataset:**  
+*   **Dataset:** [Online Retail II (UCI)](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II) — A two-year transactional dataset from a UK-based online retailer (2009-2011).
 *   **Business Value:** Provide actionable, predictive intelligence for marketing optimization based on real-world transactional data.
 
 ---

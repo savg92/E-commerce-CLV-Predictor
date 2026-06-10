@@ -20,17 +20,82 @@ const DEFAULT_FORM_STATE: PredictRequest = {
 	AverageUnitPrice: 2,
 };
 
-const FIELD_CONFIG = [
-	['Country', 'text'],
-	['RecencyDays', 'number'],
-	['TenureDays', 'number'],
-	['Frequency', 'number'],
-	['Monetary', 'number'],
-	['AvgBasketValue', 'number'],
-	['AvgBasketQuantity', 'number'],
-	['UniqueProducts', 'number'],
-	['AverageUnitPrice', 'number'],
-] as const;
+type FieldKey = 'Country' | 'RecencyDays' | 'TenureDays' | 'Frequency' | 'Monetary' | 'AvgBasketValue' | 'AvgBasketQuantity' | 'UniqueProducts' | 'AverageUnitPrice';
+
+interface FieldDetails {
+	key: FieldKey;
+	type: 'text' | 'number';
+	label: string;
+	description: string;
+	realWorldUse: string;
+}
+
+const FIELD_CONFIGS: FieldDetails[] = [
+	{
+		key: 'Country',
+		type: 'text',
+		label: 'Country',
+		description: 'The country where the customer resides.',
+		realWorldUse: 'Models regional pricing variations and local preferences.'
+	},
+	{
+		key: 'RecencyDays',
+		type: 'number',
+		label: 'Recency (Days)',
+		description: 'Number of days elapsed since the customer\'s last purchase.',
+		realWorldUse: 'High recency means a customer bought recently and has low churn risk.'
+	},
+	{
+		key: 'TenureDays',
+		type: 'number',
+		label: 'Tenure (Days)',
+		description: 'Number of days elapsed since the customer\'s first transaction.',
+		realWorldUse: 'Measures account lifespan. Tells us how loyal/mature the customer is.'
+	},
+	{
+		key: 'Frequency',
+		type: 'number',
+		label: 'Frequency (Purchases)',
+		description: 'Total number of transactions completed by the customer.',
+		realWorldUse: 'Strong frequency indicates habitual buying and brand interaction.'
+	},
+	{
+		key: 'Monetary',
+		type: 'number',
+		label: 'Monetary Value ($)',
+		description: 'Sum of all historical transaction amounts for the customer.',
+		realWorldUse: 'Historically spent gross revenue. Foundation of economic value.'
+	},
+	{
+		key: 'AvgBasketValue',
+		type: 'number',
+		label: 'Average Basket Value ($)',
+		description: 'Average monetary amount spent per purchase invoice.',
+		realWorldUse: 'Highlights if customer spends highly per order or is a deal-seeker.'
+	},
+	{
+		key: 'AvgBasketQuantity',
+		type: 'number',
+		label: 'Average Basket Quantity',
+		description: 'Average number of items purchased per invoice.',
+		realWorldUse: 'Helps segregate wholesalers or bulk buyers from retail individuals.'
+	},
+	{
+		key: 'UniqueProducts',
+		type: 'number',
+		label: 'Unique Products Count',
+		description: 'Total number of distinct product codes (SKUs) bought.',
+		realWorldUse: 'Reflects cross-category interest and diversification of preferences.'
+	},
+	{
+		key: 'AverageUnitPrice',
+		type: 'number',
+		label: 'Average Unit Price ($)',
+		description: 'Average price paid per individual item.',
+		realWorldUse: 'Helps determine preference for luxury vs. bargain-priced items.'
+	}
+];
+
 
 function parseCsv(fileText: string): PredictRequest[] {
 	const lines = fileText
@@ -171,13 +236,23 @@ export function App({ onPredict, onPredictBatch }: AppProps) {
 	return (
 		<main className='dashboard-shell'>
 			<section className='hero-card'>
-				<p className='eyebrow'>Modern Fintech dashboard</p>
+				<p className='eyebrow'>Customer Lifetime Value Engine</p>
 				<h1>E-commerce CLV Predictor</h1>
 				<p className='hero-copy'>
-					Enter a customer&apos;s RFM profile, preview batch CSV uploads, and
-					surface prediction uncertainty clearly when the input drifts outside
-					the training distribution.
+					Predict the future financial value of your customers using Deep Learning.
+					Enter RFM profiles manually or upload CSV batch files to assess future revenue
+					and detect out-of-distribution anomaly drifts.
 				</p>
+				<div className='clv-explanation'>
+					<div className='clv-explanation-item'>
+						<strong>What is Customer Lifetime Value (CLV)?</strong>
+						<p>CLV represents the total net profit a business expects to generate from a customer over their entire purchasing lifespan. Predicting it helps focus marketing spend, prioritize VIP loyalty tiers, and proactively target customers at risk of churning.</p>
+					</div>
+					<div className='clv-explanation-item'>
+						<strong>What is Out-of-Distribution (OOD) Detection?</strong>
+						<p>Since machine learning models are trained on past shopping habits, predicting outcomes for a customer with unrealistic or extreme values (e.g., massive monetary spend or very high frequency) introduces high uncertainty. If inputs drift outside the training range, an OOD warning is surfaced.</p>
+					</div>
+				</div>
 			</section>
 
 			<div className='dashboard-grid'>
@@ -193,19 +268,24 @@ export function App({ onPredict, onPredictBatch }: AppProps) {
 					</div>
 
 					<div className='field-grid'>
-						{FIELD_CONFIG.map(([field, inputType]) => (
-							<label
-								key={field}
-								className='field'
+						{FIELD_CONFIGS.map((config) => (
+							<div
+								key={config.key}
+								className='field-wrapper'
 							>
-								<span>{field}</span>
-								<input
-									aria-label={field}
-									type={inputType}
-									value={formState[field] as string | number}
-									onChange={(event) => updateField(field, event.target.value)}
-								/>
-							</label>
+								<label className='field'>
+									<span className='field-label-text'>{config.label}</span>
+									<input
+										aria-label={config.key}
+										type={config.type}
+										value={formState[config.key] as string | number}
+										onChange={(event) => updateField(config.key, event.target.value)}
+									/>
+								</label>
+								<span className='field-hint'>
+									<strong>Real-World Use:</strong> {config.realWorldUse}
+								</span>
+							</div>
 						))}
 					</div>
 

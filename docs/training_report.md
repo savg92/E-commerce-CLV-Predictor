@@ -2,7 +2,16 @@
 
 This report documents the machine learning training pipeline, the model architectures explored, validation strategies, and comparative results for the E-commerce Customer Lifetime Value (CLV) Predictor.
 
-## 1. Data Pipeline & Preprocessing
+## 1. Dataset Overview
+
+The models in this project are trained and validated using the **Online Retail II** dataset from the UCI Machine Learning Repository.
+
+- **Source:** [UCI Online Retail II](https://archive.ics.uci.edu/ml/datasets/Online+Retail+II)
+- **Description:** Real transactions occurring between 01/12/2009 and 09/12/2011 for a UK-based, non-store online retail.
+- **Scope:** ~1 million records representing varied customer purchasing patterns, including both "whales" and standard consumer behavior.
+- **Variables used:** `InvoiceNo`, `StockCode`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID`, and `Country`.
+
+## 2. Data Pipeline & Preprocessing
 
 To train robust estimators and prevent data leakage, a strict data engineering pipeline is implemented:
 
