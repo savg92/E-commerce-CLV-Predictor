@@ -5,6 +5,7 @@ import type { PredictRequest, PredictResponse } from './types';
 
 export type AppProps = {
 	onPredict?: (payload: PredictRequest) => Promise<PredictResponse>;
+	onPredictBatch?: (payload: PredictRequest[]) => Promise<PredictResponse[]>;
 };
 
 const DEFAULT_FORM_STATE: PredictRequest = {
@@ -31,13 +32,30 @@ const FIELD_CONFIG = [
 	['AverageUnitPrice', 'number'],
 ] as const;
 
-function parseCsvRowCount(fileText: string): number {
+function parseCsv(fileText: string): PredictRequest[] {
 	const lines = fileText
 		.split(/\r?\n/)
 		.map((line) => line.trim())
 		.filter(Boolean);
 
-	return Math.max(lines.length - 1, 0);
+	if (lines.length < 2) return [];
+
+	const headers = lines[0].split(',').map((h) => h.trim());
+	const dataLines = lines.slice(1);
+
+	return dataLines.map((line) => {
+		const values = line.split(',').map((v) => v.trim());
+		const record: any = {};
+		headers.forEach((header, index) => {
+			const value = values[index];
+			if (header === 'Country') {
+				record[header] = value;
+			} else {
+				record[header] = Number(value);
+			}
+		});
+		return record as PredictRequest;
+	});
 }
 
 function readFileText(file: File): Promise<string> {
@@ -50,22 +68,27 @@ function readFileText(file: File): Promise<string> {
 	});
 }
 
-export function App({ onPredict }: AppProps) {
+export function App({ onPredict, onPredictBatch }: AppProps) {
 	const [formState, setFormState] =
 		useState<PredictRequest>(DEFAULT_FORM_STATE);
 	const [result, setResult] = useState<PredictResponse | null>(null);
+	const [batchResults, setBatchResults] = useState<PredictResponse[] | null>(
+		null,
+	);
 	const [error, setError] = useState<string | null>(null);
-	const [csvRows, setCsvRows] = useState<number | null>(null);
+	const [csvData, setCsvData] = useState<PredictRequest[] | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const predict = useMemo(
+	const client = useMemo(
 		() =>
-			onPredict ??
 			createPredictClient(
 				import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000',
 			),
-		[onPredict],
+		[],
 	);
+
+	const predict = onPredict ?? client.predict;
+	const predictBatch = onPredictBatch ?? client.predictBatch;
 
 	const updateField = (field: keyof PredictRequest, value: string) => {
 		setFormState((current) => ({
@@ -78,6 +101,7 @@ export function App({ onPredict }: AppProps) {
 		event.preventDefault();
 		setIsSubmitting(true);
 		setError(null);
+		setBatchResults(null);
 
 		try {
 			const prediction = await predict(formState);
@@ -96,13 +120,53 @@ export function App({ onPredict }: AppProps) {
 	const handleCsvUpload = async (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (!file) {
-			setCsvRows(null);
+			setCsvData(null);
 			return;
 		}
 
-		const text = await readFileText(file);
-		setCsvRows(parseCsvRowCount(text));
+		try {
+			const text = await readFileText(file);
+			const parsed = parseCsv(text);
+			setCsvData(parsed);
+		} catch (err) {
+			setError('Failed to parse CSV file');
+		}
 	};
+
+	const handleBatchPredict = async () => {
+		if (!csvData || csvData.length === 0) return;
+
+		setIsSubmitting(true);
+		setError(null);
+		setResult(null);
+
+		try {
+			const predictions = await predictBatch(csvData);
+			setBatchResults(predictions);
+		} catch (submissionError) {
+			setError(
+				submissionError instanceof Error
+					? submissionError.message
+					: 'Batch prediction failed',
+			);
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	const batchStats = useMemo(() => {
+		if (!batchResults || batchResults.length === 0) return null;
+
+		const totalClv = batchResults.reduce((acc, r) => acc + r.prediction, 0);
+		const oodCount = batchResults.filter((r) => r.ood).length;
+		const avgClv = totalClv / batchResults.length;
+
+		return {
+			count: batchResults.length,
+			avgClv,
+			oodCount,
+		};
+	}, [batchResults]);
 
 	return (
 		<main className='dashboard-shell'>
@@ -182,8 +246,18 @@ export function App({ onPredict }: AppProps) {
 						onChange={handleCsvUpload}
 					/>
 
-					{csvRows !== null ? (
-						<p className='muted'>CSV rows loaded: {csvRows}</p>
+					{csvData !== null ? (
+						<div className='batch-actions'>
+							<p className='muted'>CSV rows loaded: {csvData.length}</p>
+							<button
+								className='primary-button'
+								type='button'
+								onClick={handleBatchPredict}
+								disabled={isSubmitting || csvData.length === 0}
+							>
+								{isSubmitting ? 'Processing Batch…' : 'Run Batch Prediction'}
+							</button>
+						</div>
 					) : (
 						<p className='muted'>No CSV uploaded yet.</p>
 					)}
@@ -236,6 +310,34 @@ export function App({ onPredict }: AppProps) {
 							<p className='muted'>Prediction is within the training range.</p>
 						)}
 					</>
+				) : batchStats ? (
+					<div className='batch-results'>
+						<div className='result-grid'>
+							<div>
+								<span className='result-label'>Batch Size</span>
+								<strong className='result-value'>{batchStats.count}</strong>
+							</div>
+							<div>
+								<span className='result-label'>Avg Predicted CLV</span>
+								<strong className='result-value'>
+									${batchStats.avgClv.toFixed(2)}
+								</strong>
+							</div>
+							<div>
+								<span className='result-label'>OOD Alerts</span>
+								<strong className='result-value'>{batchStats.oodCount}</strong>
+							</div>
+						</div>
+						{batchStats.oodCount > 0 && (
+							<div
+								className='warning-banner'
+								role='alert'
+							>
+								⚠️ Warning: {batchStats.oodCount} customers in this batch
+								triggered OOD alerts!
+							</div>
+						)}
+					</div>
 				) : (
 					<p className='muted'>
 						Run a prediction to see the model output and uncertainty banner.

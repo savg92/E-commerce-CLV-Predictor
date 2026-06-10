@@ -12,6 +12,7 @@ import joblib
 import numpy as np
 import torch
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend.training.model import MLP
@@ -112,6 +113,14 @@ def create_app(
 
     app = FastAPI(title="E-commerce CLV Predictor", lifespan=lifespan)
 
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
@@ -123,4 +132,14 @@ def create_app(
             raise HTTPException(status_code=503, detail="Inference service is not initialized.")
         return service.predict(payload)
 
+    @app.post("/predict/batch", response_model=list[PredictResponse])
+    def predict_batch(payload: list[PredictRequest], request: Request) -> list[PredictResponse]:
+        service = getattr(request.app.state, "inference_service", None)
+        if service is None:
+            raise HTTPException(status_code=503, detail="Inference service is not initialized.")
+        return [service.predict(p) for p in payload]
+
     return app
+
+
+app = create_app()

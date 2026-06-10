@@ -167,6 +167,13 @@ input {
 	font-size: 1.6rem;
 }
 
+.batch-actions,
+.batch-results {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
 .warning-banner,
 .error-banner {
 	border-radius: 14px;

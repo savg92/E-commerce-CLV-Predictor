@@ -1,0 +1,11 @@
+Country,RecencyDays,TenureDays,Frequency,Monetary,AvgBasketValue,AvgBasketQuantity,UniqueProducts,AverageUnitPrice
+UK,10,100,5,500,100,20,10,5.0
+UK,2,300,50,5000,100,50,40,2.0
+France,50,150,2,50,25,10,5,2.5
+Germany,1,400,100,20000,200,100,80,2.0
+Spain,200,250,1,10,10,5,2,2.0
+UK,15,120,8,800,100,25,12,4.0
+UK,5,350,60,7000,116.67,60,45,1.9
+France,40,160,3,75,25,12,6,2.1
+Germany,2,410,110,25000,227.27,110,85,2.0
+Spain,180,260,2,25,12.5,7,3,1.8

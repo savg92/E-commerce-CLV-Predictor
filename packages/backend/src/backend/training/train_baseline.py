@@ -5,7 +5,6 @@ import datetime
 import os
 from typing import Tuple
 import pandas as pd
-import numpy as np
 
 from backend.infrastructure.data_loaders import CSVTransactionRepository
 from backend.domain.use_cases import CalculateRFM

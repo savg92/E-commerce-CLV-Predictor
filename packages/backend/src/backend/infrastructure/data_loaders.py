@@ -1,6 +1,5 @@
 """Infrastructure data loaders for the E-commerce CLV Predictor."""
 
-import datetime
 from typing import List
 import pandas as pd
 from backend.domain.entities import Transaction
